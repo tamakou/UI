@@ -1,0 +1,41 @@
+﻿<Window x:Class="AppUI.Views.Dialog.SettingMenuDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppUI.Views.Dialog"
+        xmlns:vm="clr-namespace:AppUI.ViewModels.Dialog"
+        mc:Ignorable="d"
+        Background="{StaticResource BackBrush}"
+        Title="SettingMenuDialog" Height="114" Width="160"  Top="{Binding Top}" Left="{Binding Left}"  WindowStyle="None">
+    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <!--<RowDefinition Height="2*"/>-->
+            </Grid.RowDefinitions>
+            <Button HorizontalAlignment="Right"
+                    Width="40" 
+                    Background="Transparent" BorderBrush="Transparent"
+                    Command="{Binding CloseButtonCommand}">
+                <TextBlock FontFamily="Segoe MDL2 Assets"
+                                        Text="&#xE8BB;"
+                                        VerticalAlignment="Center"/>
+            </Button>
+            <Button Grid.Row="1" Margin="5"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Tag="{Binding ActiveVersionStatus}"
+                    Command="{Binding VersionInformationButtonCommand}">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center">バージョン</TextBlock>
+                    <TextBlock HorizontalAlignment="Center">情報</TextBlock>
+                </StackPanel>
+            </Button>
+            <!--<Button Grid.Row="2" Margin="5"
+                    Style="{StaticResource RoundedButtonStyle}"
+                    Tag="{Binding ActiveInquiryStatus}"
+                    Command="{Binding InquiryButtonCommand}">問い合わせ先</Button>-->
+        </Grid>
+    </Border>
+</Window>

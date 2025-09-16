@@ -1,0 +1,28 @@
+﻿<Window x:Class="testDLLCS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+        xmlns:local="clr-namespace:testDLLCS"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1087" Width="1560">
+    <Grid Margin="0,0,-25,-45">
+        <Button x:Name="loadDLL" Content="LoadDLL" HorizontalAlignment="Left" Margin="40,69,0,0" VerticalAlignment="Top" Height="22" Width="100" Click="button_Click_load_dll"/>
+        <Canvas Margin="253,0,37,273">
+            <Image x:Name="image_draw_area" Height="761" Canvas.Left="36" Canvas.Top="38" Width="1177"/>
+
+        </Canvas>
+        <Button x:Name="testDLL" Content="testDLL" HorizontalAlignment="Left" Margin="40,151,0,0" VerticalAlignment="Top" Height="22" Width="100" Click="button_Click_test_dll"/>
+        <Button x:Name="testImg" Content="testImg" HorizontalAlignment="Left" Margin="21,325,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_test_image"/>
+        <Button x:Name="testCmd" Content="testCmd" HorizontalAlignment="Left" Margin="21,217,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_test_cmd"/>
+        <Button x:Name="testStatus" Content="testStatus" HorizontalAlignment="Left" Margin="21,244,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_test_status"/>
+        <Button x:Name="closeCmd" Content="closeCmd" HorizontalAlignment="Left" Margin="21,271,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_close_cmd"/>
+        <Button x:Name="loadVol" Content="loadVol" HorizontalAlignment="Left" Margin="121,244,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_load_vol"/>
+        <Button x:Name="createGC" Content="createGC" HorizontalAlignment="Left" Margin="121,277,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_create_GC"/>
+        <Button x:Name="renderVol" Content="renderVol" HorizontalAlignment="Left" Margin="121,309,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_render_vol"/>
+        <Button x:Name="getImage" Content="getImage" HorizontalAlignment="Left" Margin="121,336,0,0" VerticalAlignment="Top" Height="22" Width="81" Click="button_Click_get_image" RenderTransformOrigin="0.575,5.202"/>
+
+
+    </Grid>
+</Window>

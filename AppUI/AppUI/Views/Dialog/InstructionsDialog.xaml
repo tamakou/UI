@@ -1,0 +1,42 @@
+﻿<Window x:Class="AppUI.Views.Dialog.InstructionsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppUI.Views.Dialog"
+        xmlns:vm="clr-namespace:AppUI.ViewModels.Dialog"
+        mc:Ignorable="d"
+        Background="{StaticResource BackBrush}"
+        Title="InstructionsDialog" Height="600" Width="450">
+    <Window.Resources>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:InstructionsDialogViewModel/>
+    </Window.DataContext>
+    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" LastChildFill="False">
+                <Button DockPanel.Dock="Right" 
+                            Style="{StaticResource RoundedButtonStyle}"
+                            Width="125" VerticalAlignment="Stretch" Margin="0,10,10,10" 
+                            Command="{Binding CloseButtonCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                    Text="&#xE8BB;"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,30,0"/>
+                        <TextBlock Text="閉じる" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </DockPanel>
+            <TextBlock Grid.Row="1"
+                Style="{StaticResource InstructionsText}"
+                Text="{Binding Text}"/>
+        </Grid>
+    </Border>
+</Window>

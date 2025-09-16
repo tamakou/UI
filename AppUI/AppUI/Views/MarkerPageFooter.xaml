@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="AppUI.Views.MarkerPageFooter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppUI.Views"
+             xmlns:vm="clr-namespace:AppUI.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="167" d:DesignWidth="1920">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button" BasedOn="{StaticResource RoundedButtonStyle}"/>
+            <DataTemplate x:Key="PanelMarkerCorrectTemplate">
+                <DockPanel HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Button Command="{Binding MarkerCorrectCommand}">はい</Button>
+                    <Button Margin="80,0,0,0" VerticalAlignment="Stretch"
+                            Command="{Binding MarkerUnCorrectCommand}">いいえ</Button>
+                </DockPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="PanelMarkerSettingTemplate">
+                <DockPanel HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Button MinWidth="200"
+                            IsEnabled="{Binding IsRoiSettingExecutable}"
+                            Command="{Binding GoToRoiSettingCommand}">関心領域の設定へ進む</Button>
+                    <Button Margin="80,0,0,0" VerticalAlignment="Stretch"
+                            Command="{Binding MarkerStartOverCommand}">やり直す</Button>
+                </DockPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="PanelRoiSettingTemplate">
+                <DockPanel HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Button HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                            Command="{Binding RoiSettingCorrectCommand}">はい</Button>
+                </DockPanel>
+            </DataTemplate>
+
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Style="{StaticResource TextBlockMarkerPageFotterMessage}"
+                       Text="{Binding ConfirmMessage}"/>
+            <TextBlock Grid.Column="2" 
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                       Style="{StaticResource TextBlockMarkerPageFotterMessage}"
+                       Text="{Binding MarkerProgressMessage}"
+                       Visibility="{Binding IsMarkerSetting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0" LastChildFill="False">
+                <Button DockPanel.Dock="Left" VerticalAlignment="Stretch" Margin="10,0,0,20" 
+                        Command="{Binding GoToHomeScreenCommand}" Content="設定"/>
+            </DockPanel>
+            
+            <ContentControl Grid.Column="1" Content="{Binding}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PanelTemplateSelect}" Value="{x:Static vm:MarkerRoiConfirmType.MarkerCorrect}">
+                                <Setter Property="ContentTemplate" Value="{StaticResource PanelMarkerCorrectTemplate}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PanelTemplateSelect}" Value="{x:Static vm:MarkerRoiConfirmType.MarkerSetting}">
+                                <Setter Property="ContentTemplate" Value="{StaticResource PanelMarkerSettingTemplate}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PanelTemplateSelect}" Value="{x:Static vm:MarkerRoiConfirmType.RoiSetting}">
+                                <Setter Property="ContentTemplate" Value="{StaticResource PanelRoiSettingTemplate}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </Grid>
+    </Grid>
+</UserControl>

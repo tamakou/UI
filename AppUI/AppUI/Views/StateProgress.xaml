@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="AppUI.Views.StateProgress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppUI.Views"
+             xmlns:vm="clr-namespace:AppUI.ViewModels"
+             mc:Ignorable="d"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Center">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" BasedOn="{StaticResource LabelBase}">
+                <Setter Property="FontSize" Value="30"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="1" HorizontalAlignment="Center">
+            <Label VerticalAlignment="Center">1</Label>
+            <Label VerticalAlignment="Center" Margin="20,0,0,0"
+                   Tag="{Binding ActiveNewDataStatus}">新規データ追加</Label>
+        </DockPanel>
+        <Label Style="{StaticResource DoubleTriangleIcon}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <DockPanel Grid.Column="3" HorizontalAlignment="Center">
+            <Label VerticalAlignment="Center">2</Label>
+            <WrapPanel VerticalAlignment="Center" Margin="20,0,0,0">
+                <Label Tag="{Binding ActiveSetMarkerStateStatus}">マーカ</Label>
+                <Label>・</Label>
+                <Label Tag="{Binding ActiveSetRoiStateStatus}">関心領域</Label>
+            </WrapPanel>
+        </DockPanel>
+
+        <Label Style="{StaticResource DoubleTriangleIcon}" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DockPanel Grid.Column="5" HorizontalAlignment="Center">
+            <Label VerticalAlignment="Center">3</Label>
+            <Label VerticalAlignment="Center" Margin="20,0,0,0"
+                   Tag="{Binding ActiveTransportDataStatus}">端末への転送</Label>
+        </DockPanel>
+    </Grid>
+</UserControl>

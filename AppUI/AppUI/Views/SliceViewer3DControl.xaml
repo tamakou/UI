@@ -1,0 +1,152 @@
+﻿<UserControl x:Class="AppUI.Views.SliceViewer3DControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppUI.Views"
+             xmlns:vm="clr-namespace:AppUI.ViewModels"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <vm:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <Grid Background="{StaticResource ViewerBackBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Panel.ZIndex="1" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       Content="{Binding LoadingMessage}" Foreground="{StaticResource ViewerLoadMessageBrush}" Background="Transparent" FontSize="30"/>
+                <ScrollViewer Grid.Row="0" Panel.ZIndex="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <Canvas x:Name="ImageArea"
+                        MouseWheel="Canvas_MouseWheel"
+                        MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                        MouseMove="Canvas_MouseMove"
+                        MouseLeftButtonUp="Canvas_MouseLeftButtonUp"
+                        MouseDown="Canvas_MouseDown"
+                        MouseUp="Canvas_MouseUp"
+                        SizeChanged="Canvas_SizeChanged"
+                        Cursor="{Binding CurrentCursor}">
+                        <Image Source="{Binding ImageSource}"
+                           Stretch="Fill"
+                           Width="{Binding ActualWidth, ElementName=ImageArea}"
+                           Height="{Binding ActualHeight, ElementName=ImageArea}"
+                           Panel.ZIndex="0">
+                            <!--<Image.RenderTransform>
+                                <ScaleTransform ScaleX="{Binding ZoomScale}" ScaleY="{Binding ZoomScale}" />
+                            </Image.RenderTransform>-->
+                        </Image>
+                        <ItemsControl ItemsSource="{Binding NewPoints}"
+                            Visibility="{Binding DemoPointsVisible, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Canvas.Left" Value="{Binding X}" />
+                                    <Setter Property="Canvas.Top" Value="{Binding Y}" />
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Ellipse Width="40" Height="40" Fill="{StaticResource DemoMarkerBrush}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Canvas>
+                </ScrollViewer>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0"
+                          Margin="5,0"
+                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                          Visibility="{Binding IsRoiSetting, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            Grid.Row="0" 
+                            HorizontalAlignment="Center"
+                            Margin="0,20">
+                            <TextBlock 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,10,0"
+                                Foreground="{StaticResource BackBrush}">表示</TextBlock>
+                            <ToggleButton Margin="4,4,2,2" VerticalAlignment="Stretch" 
+                                          Style="{StaticResource RoundedToggleButtonStyle}"
+                                          Command="{Binding BodySurfaceButtonCommand}"
+                                          IsChecked="{Binding IsBodySurfaceChecked}">体表</ToggleButton>
+                            <ToggleButton Margin="2,4,2,2" VerticalAlignment="Stretch" 
+                                          Style="{StaticResource RoundedToggleButtonStyle}"
+                                          Command="{Binding LungButtonCommand}"
+                                          IsChecked="{Binding IsLungChecked}">肺</ToggleButton>
+                            <ToggleButton Margin="2,4,2,2" VerticalAlignment="Stretch" 
+                                          Style="{StaticResource RoundedToggleButtonStyle}"
+                                          Command="{Binding HeartButtonCommand}"
+                                          IsChecked="{Binding IsHeartChecked}">心臓</ToggleButton>
+                            <ToggleButton Margin="2,4,2,2" VerticalAlignment="Stretch" 
+                                          Style="{StaticResource RoundedToggleButtonStyle}"
+                                          Command="{Binding DisplaysOtherButtonCommand}"
+                                          IsChecked="{Binding IsDispOtherChecked}">その他</ToggleButton>
+                        </StackPanel>
+
+                                <!--<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource BackBrush}">症例</TextBlock>
+                        <RadioButton Grid.Row="1" Grid.Column="1" Margin="4,2,2,4" VerticalAlignment="Stretch" 
+                                      Style="{StaticResource RoundedRadioButtonStyle}"
+                                      Command="{Binding PneumothoraxButtonCommand}"
+                                      IsChecked="{Binding StudyCase, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Pneumothorax}">気胸</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="2" Margin="1,2,2,4" VerticalAlignment="Stretch" 
+                                      Style="{StaticResource RoundedRadioButtonStyle}"
+                                      Command="{Binding PleuralEffusionButtonCommand}"
+                                      IsChecked="{Binding StudyCase, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=PleuralEffusion}">胸水</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="3" Margin="1,2,2,4" VerticalAlignment="Stretch" 
+                                      Style="{StaticResource RoundedRadioButtonStyle}"
+                                      Command="{Binding EmpyemaButtonCommand}"
+                                      IsChecked="{Binding StudyCase, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Empyema}">膿胸</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="4" Margin="1,2,2,4" VerticalAlignment="Stretch" 
+                                      Style="{StaticResource RoundedRadioButtonStyle}"
+                                      Command="{Binding HemothoraxButtonCommand}"
+                                      IsChecked="{Binding StudyCase, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Hemothorax}">血胸</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="5" Margin="1,1,2,4" VerticalAlignment="Stretch" 
+                                      Style="{StaticResource RoundedRadioButtonStyle}"
+                                      Command="{Binding CasesOtherButtonCommand}"
+                                      IsChecked="{Binding StudyCase, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Other}">その他</RadioButton>-->
+                    </Grid>
+                    <Grid Grid.Column="1" VerticalAlignment="Center" Margin="30,0">
+                        <WrapPanel>
+                            <Button 
+                                DockPanel.Dock="Left"
+                                VerticalAlignment="Center"
+                                Margin="5"
+                                Style="{StaticResource IconButton}"
+                                Command="{Binding ZoomInButtonCommand}">
+                                    <TextBlock
+                                        Text="&#xE8A3;"
+                                        Style="{StaticResource TextBlockAssetIcon}"/>
+                            </Button>
+                            <Button
+                                DockPanel.Dock="Right"
+                                VerticalAlignment="Center"
+                                Margin="0,5,5,5"
+                                Style="{StaticResource IconButton}"
+                                Command="{Binding ZoomOutButtonCommand}">
+                                    <TextBlock
+                                        Text="&#xE71F;"
+                                        Style="{StaticResource TextBlockAssetIcon}"/>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
